@@ -1,0 +1,83 @@
+import wordbank
+import random
+import sys
+import hanging
+
+def start():
+    start = input(r"""
+
+    Select a genre:
+
+    - Animals
+    - Fruits
+    - Countries
+    - Professions
+    - Colors 
+    - Technology
+
+    Genre:
+
+    """)
+    global randWord
+    randWord = random.choice(wordbank.genres[start])
+    if start in wordbank.genres:
+        print(r"""
+
+            _______
+        |/      |
+        |      
+        |      
+        |      
+        |      
+        |
+       _|___
+
+    """)
+        
+        length = len(randWord)
+        print(randWord)
+        print("_ " * length)
+    
+    guess(randWord)
+
+
+def guess(word):
+    global randWord
+    count = 0
+    length = len(randWord)
+    hidden = "_ " * length
+
+
+    while True:
+        attempt = input("Type a letter! ")
+
+        if len(attempt) == 1:
+            # User entered a single letter
+            break
+        else:
+            print("Please enter only one letter!")
+
+    for i in randWord:
+
+        if i == attempt:
+            print ("_ " * (length - 1))
+            return
+        elif i != attempt:
+            # problem: ASCII art isn't being shown correctly
+            for a in hanging.stages:
+                print(hanging.stages[a])
+            count += 1
+            print(f"Wrong Attempts: {count}")
+            print(hidden)
+            break
+
+    guess(word)
+
+
+
+def game():
+    start()
+
+    
+
+game()
