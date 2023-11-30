@@ -68,3 +68,7 @@ stages = {
     "legs": step3,
     "arms": step4,
 }
+
+def display_hangman(stage):
+    for line in stages[stage]:
+        print(line)

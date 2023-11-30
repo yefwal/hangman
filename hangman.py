@@ -41,43 +41,49 @@ def start():
     guess(randWord)
 
 
-def guess(word):
+def guess(word, count=0):
     global randWord
-    count = 0
     length = len(randWord)
     hidden = "_ " * length
-
 
     while True:
         attempt = input("Type a letter! ")
 
         if len(attempt) == 1:
-            # User entered a single letter
             break
         else:
             print("Please enter only one letter!")
 
+    found = False
+    
     for i in randWord:
-
         if i == attempt:
-            print ("_ " * (length - 1))
-            return
-        elif i != attempt:
-            # problem: ASCII art isn't being shown correctly
-            for a in hanging.stages:
-                print(hanging.stages[a])
-            count += 1
-            print(f"Wrong Attempts: {count}")
-            print(hidden)
-            break
+            found = True
+            print("_ " * (length - 1)) 
 
-    guess(word)
-
-
+    if not found:
+        count += 1
+        if count == 1:
+            hanging.display_hangman("head")
+        elif count == 2:
+            hanging.display_hangman("body")
+        elif count == 3:
+            hanging.display_hangman("legs")
+        elif count == 4:
+            hanging.display_hangman("arms")
+            
+        print(f"Wrong Attempts: {count}")
+        print(hidden)
+        
+    # Check for game over condition
+    if count >= 4:
+        print("Game over!")
+        return  # Return to stop further recursive calls
+    else:
+        guess(word, count)  # Recursive call for next attempt
 
 def game():
     start()
 
-    
-
 game()
+
