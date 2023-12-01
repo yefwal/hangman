@@ -19,6 +19,8 @@ def start():
 
     """)
     global randWord
+    global empty
+    empty = []
     randWord = random.choice(wordbank.genres[start])
     if start in wordbank.genres:
         print(r"""
@@ -35,16 +37,17 @@ def start():
     """)
         
         length = len(randWord)
+        while len(empty) < length:
+            empty.append("_")
         print(randWord)
-        print("_ " * length)
-    
+        print(" ".join(empty))
     guess(randWord)
 
 
 def guess(word, count=0):
     global randWord
+    global newWord
     length = len(randWord)
-    hidden = "_ " * length
 
     while True:
         attempt = input("Type a letter! ")
@@ -56,10 +59,12 @@ def guess(word, count=0):
 
     found = False
     
-    for i in randWord:
-        if i == attempt:
+    for index, letter in enumerate(randWord):
+        if letter == attempt:
             found = True
-            print("_ " * (length - 1)) 
+            empty[index] = attempt
+            newWord = (" ".join(empty))
+            print(newWord)
 
     if not found:
         count += 1
@@ -73,14 +78,14 @@ def guess(word, count=0):
             hanging.display_hangman("arms")
             
         print(f"Wrong Attempts: {count}")
-        print(hidden)
+        print(newWord)
         
     # Check for game over condition
     if count >= 4:
         print("Game over!")
-        return  # Return to stop further recursive calls
+        return 
     else:
-        guess(word, count)  # Recursive call for next attempt
+        guess(word, count) 
 
 def game():
     start()
