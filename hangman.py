@@ -65,6 +65,9 @@ def guess(word, count=0):
             empty[index] = attempt
             newWord = (" ".join(empty))
             print(newWord)
+        if "_" not in newWord:
+            print("You Win!")
+            return
 
     if not found:
         count += 1
